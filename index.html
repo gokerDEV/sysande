@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>sysande — AI-Assisted System Analysis and Design</title>
+  <meta name="description" content="sysande is an open-source, coverage-driven definition and prompt boilerplate for AI-assisted system analysis, architecture design, and documentation using established tools such as LikeC4 and D2.">
+  <meta name="keywords" content="system analysis, system design, software architecture, AI-assisted architecture, C4 model, LikeC4, D2 diagrams, architecture documentation">
+  <meta name="theme-color" content="#f8fafc">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="sysande">
+  <meta property="og:description" content="A coverage-driven boilerplate for AI-assisted system analysis and architecture design.">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "sysande",
+    "description": "An open-source definition and prompt boilerplate for AI-assisted system analysis and design.",
+    "codeRepository": "https://github.com/gokerDEV/sysande",
+    "programmingLanguage": ["Markdown", "LikeC4", "D2"],
+    "license": "https://opensource.org/license/mit",
+    "keywords": ["system analysis", "system design", "software architecture", "C4 model", "LikeC4", "D2", "AI-assisted architecture"]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top">sysande</a>
+    <nav aria-label="Primary navigation">
+      <a href="#workflow">Workflow</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#tools">Tools</a>
+      <a href="./llms.txt">For AI</a>
+      <a href="https://github.com/gokerDEV/sysande">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">Open-source system-design boilerplate</p>
+      <h1>System analysis and design with humans and AI.</h1>
+      <p class="lead">sysande guides iterative discovery, coverage planning, architecture design, and documentation while relying on established tools such as LikeC4 and D2.</p>
+      <div class="actions">
+        <a class="button primary" href="#start">Start designing</a>
+        <a class="button" href="https://github.com/gokerDEV/sysande">View source</a>
+      </div>
+      <ul class="traits" aria-label="Project qualities">
+        <li>Coverage-driven</li>
+        <li>AI-guided</li>
+        <li>Tool-agnostic</li>
+        <li>Open source</li>
+      </ul>
+    </section>
+
+    <section id="workflow">
+      <div class="section-heading">
+        <p class="eyebrow">Workflow</p>
+        <h2>Design one decision and one view at a time.</h2>
+      </div>
+      <ol class="steps">
+        <li><strong>Discover</strong><span>Clarify purpose, actors, boundaries, constraints, and priorities.</span></li>
+        <li><strong>Plan coverage</strong><span>Select only the views that materially improve the design.</span></li>
+        <li><strong>Design iteratively</strong><span>Ask focused questions, draft one view, review, and revise.</span></li>
+        <li><strong>Document consistently</strong><span>Keep source DSL, decisions, assumptions, and generated diagrams together.</span></li>
+      </ol>
+    </section>
+
+    <section id="coverage">
+      <div class="section-heading">
+        <p class="eyebrow">Coverage model</p>
+        <h2>A practical map for system-design documentation.</h2>
+        <p>Not every cell must be completed. The matrix helps humans and AI decide what is useful, missing, deferred, or unnecessary.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Level</th><th>Structure</th><th>Data</th><th>Flow</th><th>Behavior</th><th>Deployment</th></tr></thead>
+          <tbody>
+            <tr><th>Context</th><td>C4 Context</td><td>—</td><td>Context Flow</td><td>—</td><td>—</td></tr>
+            <tr><th>Container</th><td>C4 Container</td><td>Logical Data</td><td>Data Flow</td><td>Sequence / State</td><td>Deployment</td></tr>
+            <tr><th>Component</th><td>C4 Component</td><td>Domain Model</td><td>Activity / Data Flow</td><td>Sequence / State</td><td>Runtime Mapping</td></tr>
+            <tr><th>Code</th><td>Class / Package</td><td>ERD</td><td>Algorithm Flow</td><td>State / Sequence</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tools" class="grid-two">
+      <article>
+        <p class="eyebrow">Shared architecture model</p>
+        <h2>LikeC4</h2>
+        <p>Preferred for reusable architectural elements and C4-oriented context, container, component, dynamic, and deployment views.</p>
+      </article>
+      <article>
+        <p class="eyebrow">Flexible visual output</p>
+        <h2>D2</h2>
+        <p>Preferred for data-flow, state-machine, ERD, custom diagrams, reusable visual themes, and animated SVG output.</p>
+      </article>
+    </section>
+
+    <section id="start" class="start-panel">
+      <div>
+        <p class="eyebrow">Start with any AI assistant</p>
+        <h2>Copy this prompt.</h2>
+      </div>
+      <pre><code>Use sysande to help me design this system.
+Read https://gokerdev.github.io/sysande/llms.txt
+Start with the init questions.
+Do not generate diagrams before the initial coverage plan is reviewed.</code></pre>
+      <p class="small">The published URL will work after GitHub Pages is enabled for the repository.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>sysande</span>
+    <span>Open source · MIT</span>
+  </footer>
+</body>
+</html>
