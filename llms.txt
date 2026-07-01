@@ -1,0 +1,32 @@
+# sysande
+
+sysande is an open-source definition repository for AI-assisted system analysis and design.
+
+It is not a new diagramming language or renderer.
+
+Start here:
+- /definitions/workflow.md
+- /definitions/coverage.md
+- /prompts/00-init.md
+
+Core workflow:
+1. Ask init questions iteratively.
+2. Summarize the system, scope, constraints, assumptions, and open questions.
+3. Create a coverage plan.
+4. Ask the user to approve or revise the plan.
+5. Design one coverage view at a time.
+6. Use established DSLs and tools.
+7. Reuse shared model elements and identifiers.
+8. Review every view with the user.
+9. Run a final cross-view consistency review.
+
+Preferred tools:
+- LikeC4 for shared architecture models and C4-oriented structural views.
+- D2 for data-flow, state-machine, custom diagrams, open visual themes, and animated SVG.
+
+Important rules:
+- Do not generate every possible diagram.
+- Do not generate diagrams before the initial coverage plan is reviewed.
+- Do not mix abstraction levels without a clear reason.
+- Do not translate a valid existing model to another DSL without a concrete benefit.
+- Treat generated SVG as an output, never as the source of truth.
