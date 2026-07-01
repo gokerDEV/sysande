@@ -1,0 +1,90 @@
+specification {
+  element actor {
+    style {
+      shape person
+    }
+  }
+
+  element system
+
+  element webapp {
+    style {
+      shape browser
+    }
+  }
+
+  element service
+  element worker
+
+  element datastore {
+    style {
+      shape storage
+    }
+  }
+
+  element queue
+}
+
+model {
+  visitor = actor 'Visitor' 'Searches for a location and views a forecast'
+
+  provider = system 'Weather Provider' 'External source of current conditions and forecast data'
+
+  weather = system 'Weather System' 'Provides cached current and short-term forecasts' {
+    web = webapp 'Web Application' 'Accepts location searches and displays forecasts'
+
+    api = service 'Weather API' 'Returns cached forecasts and requests refresh work when needed' {
+      technology 'HTTP API'
+    }
+
+    refreshWorker = worker 'Forecast Refresh Worker' 'Retrieves provider data and updates the shared cache'
+
+    forecastCache = datastore 'Forecast Cache' 'Stores forecast data and freshness metadata'
+
+    refreshQueue = queue 'Refresh Queue' 'Delivers asynchronous forecast refresh jobs'
+
+    web -> api 'requests forecast data' 'HTTPS/JSON'
+    api -> forecastCache 'reads cached forecast'
+    api -> refreshQueue 'enqueues refresh job'
+    refreshQueue -> refreshWorker 'delivers refresh job'
+    refreshWorker -> provider 'requests forecast data' 'HTTPS/JSON'
+    refreshWorker -> forecastCache 'stores refreshed forecast'
+  }
+
+  visitor -> weather 'views forecasts'
+  weather -> provider 'retrieves weather data'
+  visitor -> weather.web 'uses in a browser'
+}
+
+views {
+  view index {
+    title 'Weather System — Context'
+    description 'Context-level structure showing the visitor, Weather System, and external provider.'
+
+    include visitor, weather, provider
+    include visitor -> weather
+    include weather -> provider
+  }
+
+  view containers of weather {
+    title 'Weather System — Containers'
+    description 'Container-level structure for forecast requests, caching, and asynchronous refresh.'
+
+    include *
+  }
+
+  dynamic view forecastRequest {
+    title 'Get Forecast'
+    description 'Primary forecast request with cached response and asynchronous refresh.'
+
+    visitor -> weather.web 'searches for a location'
+    weather.web -> weather.api 'requests forecast'
+    weather.api -> weather.forecastCache 'reads cached forecast'
+    weather.forecastCache -> weather.api 'returns cached forecast and freshness metadata'
+    weather.api -> weather.refreshQueue 'enqueues refresh when stale or missing'
+    weather.api -> weather.web 'returns forecast response'
+    weather.web -> visitor 'displays forecast and freshness'
+
+    include weather
+  }
+}
