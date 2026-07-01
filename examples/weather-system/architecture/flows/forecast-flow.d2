@@ -1,0 +1,75 @@
+...@../../../../themes/d2-sysande-default/theme.d2
+
+direction: right
+
+visitor: Visitor {
+  class: actor
+}
+
+web: Web Application {
+  class: service
+}
+
+api: Weather API {
+  class: service
+}
+
+cache: Forecast Cache {
+  class: data-store
+}
+
+queue: Refresh Queue {
+  class: queue
+}
+
+worker: Forecast Refresh Worker {
+  class: processing
+}
+
+provider: Weather Provider {
+  class: external
+}
+
+visitor -> web: location query {
+  class: data-flow
+}
+
+web -> api: forecast request {
+  class: data-flow
+}
+
+api -> cache: cache lookup {
+  class: data-flow
+}
+
+cache -> api: forecast + freshness {
+  class: data-flow
+}
+
+api -> web: cached forecast response {
+  class: data-flow
+}
+
+api -> queue: refresh command when stale or missing {
+  class: event-flow
+}
+
+queue -> worker: refresh job {
+  class: event-flow
+}
+
+worker -> provider: provider request {
+  class: data-flow
+}
+
+provider -> worker: provider forecast {
+  class: data-flow
+}
+
+worker -> cache: refreshed forecast + timestamp {
+  class: data-flow
+}
+
+web -> visitor: rendered forecast {
+  class: data-flow
+}
