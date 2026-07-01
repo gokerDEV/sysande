@@ -1,0 +1,634 @@
+# sysande — Full AI Guidance
+
+sysande is an open-source definition repository for AI-assisted system analysis and design.
+
+It is not a new diagramming language, renderer, modeling standard, visual editor, hosted platform, or AI service.
+
+Its purpose is to guide a human and an AI assistant through a repeatable, coverage-driven process using established tools and DSLs.
+
+Repository: https://github.com/gokerDEV/sysande
+Website: https://gokerdev.github.io/sysande/
+
+---
+
+# 1. Core workflow
+
+Follow this sequence:
+
+1. Run the init conversation.
+2. Produce a discovery summary.
+3. Ask the user to correct and approve the summary.
+4. Create a coverage plan.
+5. Ask the user to approve or revise the coverage plan.
+6. Design one approved view at a time.
+7. Review each view with the user.
+8. Update assumptions, decisions, terminology, and coverage status.
+9. Run a cross-view consistency review.
+10. Publish source DSL files together with generated outputs.
+
+Do not generate diagrams before the initial coverage plan has been reviewed.
+
+Do not generate every possible diagram.
+
+Do not fill the coverage matrix merely for completeness.
+
+---
+
+# 2. Core concepts
+
+## Abstraction levels
+
+- context — the system, its users, and external systems
+- container — runnable or deployable applications and data stores
+- component — major logical responsibilities inside a selected container
+- code — classes, interfaces, packages, modules, schemas, tables, and algorithms
+
+## Concerns
+
+- structure — what exists and how elements are related
+- data — what information exists and how it is organized
+- flow — how information or work moves through the system
+- behavior — how the system reacts over time, exchanges messages, or changes state
+- deployment — where software runs and how runtime nodes are connected
+
+## Notation
+
+Notation is the convention used to express a view, such as:
+
+- c4
+- sequence
+- state-machine
+- data-flow
+- erd
+- deployment
+
+Concern and notation are not the same thing.
+
+Example:
+
+level: container
+concern: behavior
+notation: state-machine
+
+## View
+
+A view is a purposeful representation of part of the system from one abstraction level and one concern, using a selected notation and tool.
+
+Every planned view should define:
+
+- abstraction level
+- concern
+- notation
+- selected tool
+- purpose
+- source file
+- coverage status
+
+---
+
+# 3. Base coverage matrix
+
+| Abstraction level | Structure | Data | Flow | Behavior | Deployment |
+|---|---|---|---|---|---|
+| Context | C4 Context | Not normally needed | Context Flow | Not normally needed | Not normally needed |
+| Container | C4 Container | Logical Data | Data Flow | Sequence / State | Deployment |
+| Component | C4 Component | Domain Model | Activity / Data Flow | Sequence / State | Runtime Mapping |
+| Code | Class / Package | ERD | Algorithm Flow | State / Sequence | Not normally needed |
+
+This matrix is a planning aid, not a compliance checklist.
+
+A coverage cell may contain zero, one, or several views.
+
+## Coverage statuses
+
+- not-applicable
+- deferred
+- missing
+- planned
+- draft
+- reviewed
+- approved
+
+Definitions:
+
+- not-applicable — the cell does not provide useful information for the current scope
+- deferred — potentially useful later, intentionally postponed
+- missing — useful but not yet planned or created
+- planned — selected for creation
+- draft — source exists, unresolved issues remain
+- reviewed — reviewed by the user, final approval may still be pending
+- approved — explicitly approved by the user
+
+Approval is project-level acceptance, not external certification.
+
+---
+
+# 4. Preferred tools
+
+## LikeC4
+
+Prefer LikeC4 when the system benefits from a shared architecture model and for:
+
+- context structure
+- container structure
+- component structure
+- C4-oriented dynamic views
+- deployment views
+
+Reuse model declarations and stable identifiers across views.
+
+## D2
+
+Prefer D2 for:
+
+- data-flow diagrams
+- state-machine presentations
+- ERD and custom diagrams
+- reusable visual themes
+- static SVG
+- animated SVG
+
+Apply animation only where it communicates meaningful flow, sequence, or state change.
+
+Existing valid project tooling takes precedence over these defaults.
+
+Do not translate a valid existing model to another DSL without a concrete benefit.
+
+---
+
+# 5. Source-of-truth rules
+
+Editable source DSL files are the source of truth.
+
+Generated SVG, animated SVG, PNG, or PDF files are documentation outputs.
+
+Generated outputs must remain traceable to their source DSL.
+
+Review source semantics, not only the visual appearance.
+
+A visually attractive diagram is not necessarily a correct diagram.
+
+---
+
+# 6. Init prompt
+
+Start conversationally.
+
+Do not present a long questionnaire unless the user explicitly asks for one.
+
+Skip questions already answered.
+
+Ask one coherent group of questions at a time.
+
+Clarify:
+
+1. the system's primary purpose and expected outcome
+2. primary users, actors, and stakeholders
+3. whether this is a new system, redesign, extension, or documentation effort
+4. what is inside the system boundary
+5. external systems, services, devices, or organizations
+6. explicitly out-of-scope capabilities
+7. existing architecture, repositories, diagrams, documents, APIs, or screenshots
+8. required technologies, platforms, protocols, or integrations
+9. security, privacy, regulatory, data-residency, and trust-boundary constraints
+10. availability, latency, scalability, traffic, storage, and cost expectations
+11. the most important quality priorities
+12. known risks, unresolved decisions, and assumptions
+
+Interaction rules:
+
+- explain why a question matters when it is not obvious
+- separate confirmed facts from assumptions
+- do not invent technical requirements merely to complete a template
+- do not select technologies before relevant constraints are understood
+
+When enough information has been gathered:
+
+- summarize the system
+- list confirmed facts
+- list assumptions
+- list open questions
+- identify the initial system boundary and actors
+- ask the user to correct or approve the summary
+
+---
+
+# 7. Discovery summary
+
+Do not create diagrams in this step.
+
+Use only confirmed information from the conversation and authoritative project materials.
+
+Preserve user terminology unless a correction is necessary.
+
+Identify contradictions and ambiguous boundaries explicitly.
+
+Produce:
+
+## System purpose
+
+Describe the problem, intended outcome, and primary value.
+
+## Primary actors and stakeholders
+
+For each, state:
+
+- name
+- role
+- primary goal
+- whether they directly interact with the system
+
+## System boundary
+
+List:
+
+- capabilities inside the boundary
+- capabilities outside the boundary
+- responsibilities remaining with external parties or systems
+
+## External systems and dependencies
+
+For each, state:
+
+- name
+- purpose of the interaction
+- direction of the interaction
+- known protocol or data exchanged, when confirmed
+
+## Constraints
+
+Group under:
+
+- technology and platform
+- security and privacy
+- regulatory and legal
+- deployment and data residency
+- availability and performance
+- scalability and storage
+- cost and operational limits
+
+## Quality priorities
+
+Rank only priorities stated or confirmed by the user.
+
+## Existing materials
+
+List repositories, diagrams, screenshots, API definitions, documents, schemas, and deployed systems.
+
+## Confirmed facts
+
+List facts that can be used directly in later views.
+
+## Assumptions
+
+List every provisional assumption.
+
+## Open questions
+
+List unresolved questions in priority order and mark them blocking or non-blocking for coverage planning.
+
+## Initial terminology
+
+Create a small glossary of important terms that must remain consistent.
+
+Ask the user to correct, confirm, reject, or approve the summary.
+
+---
+
+# 8. Coverage planning
+
+Use the approved discovery summary.
+
+Do not generate diagrams in this step.
+
+Rules:
+
+- do not mark every cell as required
+- recommend only views that materially improve understanding, implementation, risk identification, communication, onboarding, operations, or long-term documentation
+- prefer the smallest useful set of views
+- defer component and code views until a concrete need exists
+- reuse established notations and tools
+- respect existing project tooling
+
+For each considered view provide:
+
+- abstraction level
+- concern
+- notation
+- preferred tool
+- purpose
+- status
+- questions that must be answered first
+
+Output:
+
+1. coverage matrix
+2. prioritized list of proposed views
+3. rationale for each proposed view
+4. assumptions and unresolved questions
+5. request for user approval or revision
+
+Do not proceed until the user approves the plan.
+
+---
+
+# 9. Designing one view
+
+Design only one approved coverage view at a time.
+
+Before starting, identify:
+
+- abstraction level
+- concern
+- notation
+- selected tool or DSL
+- purpose
+- current coverage status
+- existing shared model elements and identifiers
+- relevant facts, assumptions, decisions, and open questions
+
+Rules:
+
+1. stay within the selected abstraction level
+2. include only elements needed for the stated purpose
+3. reuse existing names and identifiers exactly
+4. do not recreate a shared element under a new identifier
+5. do not invent relationships, protocols, technologies, data types, states, or responsibilities
+6. ask the minimum number of focused questions required
+7. prefer an established notation and its semantics
+8. use the selected tool's native DSL when practical
+9. keep source DSL as the editable source of truth
+10. do not move to another view before review
+
+## Structure checks
+
+- boundaries and containment are clear
+- responsibilities are described
+- relationships are directional and labeled
+- implementation detail matches the selected level
+
+## Data checks
+
+- entities, stores, schemas, and ownership are clear
+- cardinalities and dependencies are confirmed
+- sensitive or regulated data categories are identified where relevant
+
+## Flow checks
+
+- source, destination, data, and direction are clear
+- data flow and control flow are distinguishable
+- trust-boundary crossings are visible where relevant
+
+## Behavior checks
+
+- time or event order is explicit
+- alternate, failure, retry, timeout, and terminal paths are represented when relevant
+- state transitions have named events or conditions
+
+## Deployment checks
+
+- runtime nodes, zones, environments, and network boundaries are clear
+- mapping between logical and runtime elements is explicit
+- scaling and redundancy are shown only when confirmed
+
+Output:
+
+## View definition
+
+- Level
+- Concern
+- Notation
+- Tool
+- Purpose
+- Status: draft
+
+## Questions resolved in this iteration
+
+## Confirmed elements and relationships
+
+## Assumptions
+
+## Open questions
+
+## Source DSL
+
+Provide one complete, internally consistent source block.
+
+## Rendering instructions
+
+State:
+
+- expected output format
+- selected theme
+- animation profile, if applicable
+- rendering or validation command when known
+
+## Review checklist
+
+Ask the user to review:
+
+- missing or unnecessary elements
+- incorrect boundaries
+- incorrect relationship direction or labels
+- unsupported assumptions
+- terminology inconsistencies
+- abstraction-level violations
+
+---
+
+# 10. Reviewing one view
+
+Review the view definition, source DSL, rendered output when available, facts, assumptions, open questions, and related approved views.
+
+Rules:
+
+1. review the source model, not only appearance
+2. preserve approved names, identifiers, boundaries, and decisions
+3. do not introduce unrelated architecture changes
+4. separate factual corrections from style preferences
+5. record new assumptions and decisions explicitly
+6. keep the view focused on its purpose and level
+7. update related views only when a confirmed change creates inconsistency
+
+Review dimensions:
+
+- scope and purpose
+- elements and boundaries
+- relationships and behavior
+- terminology and consistency
+- notation and tool usage
+- readability
+
+Classify findings as:
+
+- correction
+- clarification
+- consistency
+- scope
+- presentation
+
+Produce:
+
+- findings
+- concrete proposed revisions
+- complete revised source DSL when changes are accepted
+- updates required in assumptions, decisions, terminology, related views, and coverage
+- recommended coverage status
+
+Status rules:
+
+- draft when unresolved design issues remain
+- reviewed when the user has reviewed the view but final approval is pending
+- approved only when the user explicitly approves it
+
+---
+
+# 11. Cross-view consistency review
+
+Run this after planned views have been drafted and reviewed, or after a major architecture decision changes multiple views.
+
+Review:
+
+- discovery summary
+- coverage matrix
+- glossary
+- assumptions
+- decisions
+- shared LikeC4 model
+- D2 and other DSL sources
+- generated diagrams
+- deployment and integration documentation
+
+Treat source DSL and approved records as authoritative over generated images.
+
+Rules:
+
+1. compare views by shared element identity
+2. preserve approved differences in level or purpose
+3. do not require every detail in every view
+4. report only meaningful contradictions, omissions, or ambiguities
+5. distinguish confirmed defects from possible risks
+6. do not silently repair architecture decisions
+7. ask the user when approved sources conflict and no authority is defined
+
+Check:
+
+## Identity and terminology
+
+- stable names and identifiers
+- defined abbreviations and synonyms
+- internal and external elements remain distinct
+- stable names for data, events, commands, states, and protocols
+
+## Abstraction and containment
+
+- context views contain systems and actors
+- container views use runnable or deployable applications and data stores consistently
+- components belong to the correct container
+- code details do not leak upward without reason
+- parent-child relationships remain consistent
+
+## Relationships
+
+- relationship direction and purpose agree across views
+- sequence messages are possible in the structural model
+- data flows have valid sources and destinations
+- deployment connections support logical communication
+- technologies and protocols do not contradict one another
+
+## Data
+
+- ownership and storage locations are consistent
+- sensitive or regulated classifications remain stable
+- data transformations and formats are compatible
+- retention, deletion, and audit responsibilities are not contradictory
+
+## Behavior and lifecycle
+
+- sequence outcomes match state transitions
+- error, retry, cancellation, timeout, and terminal states agree
+- events and commands have producers and consumers
+- asynchronous behavior is not represented as synchronous without explanation
+
+## Deployment and boundaries
+
+- every deployed element maps to a logical element
+- trust boundaries and network zones agree with flows
+- external dependencies remain outside controlled boundaries
+- availability, scaling, and redundancy assumptions agree with deployment
+
+## Coverage and documentation
+
+- statuses match actual files
+- every planned view has purpose, notation, tool, and source
+- deferred and not-applicable cells have rationale when needed
+- generated SVG is traceable to source DSL
+- referenced assumptions and decisions are recorded
+
+Produce:
+
+- overall result: consistent, consistent with warnings, or inconsistent
+- findings with severity, category, affected views, conflict, recommendation, and need for confirmation
+- unresolved conflicts
+- exact files or views requiring updates
+- recommended coverage status changes
+- final documentation inventory
+
+---
+
+# 12. Design principles
+
+Always follow these principles:
+
+- prefer the smallest useful set of views
+- keep facts, assumptions, decisions, and open questions separate
+- preserve stable identifiers and terminology
+- avoid premature implementation detail
+- keep each view purposeful
+- use established tools rather than creating new notations
+- keep animation meaningful and optional
+- make every diagram understandable without animation
+- keep source DSL beside generated outputs
+- never treat sysande as a certification or architecture authority
+
+---
+
+# 13. Repository files
+
+Definitions:
+
+- /definitions/sysande.md
+- /definitions/workflow.md
+- /definitions/coverage.md
+- /definitions/terminology.md
+
+Prompts:
+
+- /prompts/00-init.md
+- /prompts/01-discovery.md
+- /prompts/02-coverage-plan.md
+- /prompts/03-design-view.md
+- /prompts/04-review-view.md
+- /prompts/05-consistency-review.md
+
+Templates:
+
+- /templates/coverage.md
+
+Theme:
+
+- /themes/d2-sysande-default/theme.d2
+- /themes/d2-sysande-default/README.md
+
+---
+
+# 14. First response behavior
+
+When a user says they want to design a system with sysande:
+
+1. confirm that sysande will be used as the workflow guide
+2. do not generate diagrams immediately
+3. begin the init conversation
+4. ask one coherent group of questions at a time
+5. adapt questions to information already supplied
+6. move to discovery summary only when enough context exists
