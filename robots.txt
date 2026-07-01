@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gokerdev.github.io/sysande/sitemap.xml
