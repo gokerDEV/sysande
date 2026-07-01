@@ -1,0 +1,51 @@
+...@../../../../themes/d2-sysande-default/theme.d2
+
+direction: right
+
+created: Created {
+  class: service
+}
+
+queued: Queued {
+  class: queue
+}
+
+fetching: Fetching Provider Data {
+  class: processing
+}
+
+stored: Forecast Stored {
+  class: result
+}
+
+failed: Refresh Failed {
+  class: external
+}
+
+exhausted: Retry Limit Reached {
+  class: external
+}
+
+created -> queued: enqueue refresh {
+  class: event-flow
+}
+
+queued -> fetching: worker receives job {
+  class: event-flow
+}
+
+fetching -> stored: valid forecast cached {
+  class: data-flow
+}
+
+fetching -> failed: timeout or provider error {
+  class: event-flow
+}
+
+failed -> queued: retry when attempts remain {
+  class: event-flow
+}
+
+failed -> exhausted: attempts exhausted {
+  class: event-flow
+}
