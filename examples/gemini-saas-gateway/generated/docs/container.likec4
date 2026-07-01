@@ -1,0 +1,64 @@
+specification {
+  element actor
+  element system
+  element container
+  element externalSystem
+}
+
+model {
+  actor saasDeveloper
+  actor apiConsumer
+  externalSystem identityProvider
+  externalSystem paymentGateway
+  externalSystem commProvider
+  externalSystem targetApi
+
+  system saasGatewaySystem {
+    container managementApi {
+      title "Management API"
+      description "Admin endpoints for configurations and OpenAPI ingestion."
+    }
+    container authBff {
+      title "Auth BFF"
+      description "Session management and OAuth delegation."
+    }
+    container proxyEngine {
+      title "Gateway Proxy Engine"
+      description "Zero-trust routing, scope validation, and telemetry extraction."
+    }
+    container billingEngine {
+      title "Billing & Quota Engine"
+      description "Aggregates usage metrics and enforces limits."
+    }
+    container dataStore {
+      title "Configuration & State Store"
+      description "Persistent storage for tenant data, scopes, and quotas."
+    }
+    container eventBus {
+      title "Telemetry Event Bus"
+      description "Asynchronous message queue for usage metrics."
+    }
+  }
+
+  saasDeveloper -> managementApi "Configures routing and providers"
+  apiConsumer -> authBff "Authenticates"
+  apiConsumer -> proxyEngine "Sends API requests"
+  apiConsumer -> billingEngine "Checks quotas"
+  managementApi -> dataStore "Reads/Writes configurations"
+  authBff -> dataStore "Verifies tenant configs"
+  authBff -> identityProvider "Delegates OAuth"
+  proxyEngine -> dataStore "Fetches OpenAPI rules & limits"
+  proxyEngine -> targetApi "Routes validated requests"
+  proxyEngine -> eventBus "Emits usage metrics"
+  billingEngine -> eventBus "Consumes metrics"
+  billingEngine -> dataStore "Updates quotas"
+  billingEngine -> paymentGateway "Processes purchases"
+  billingEngine -> commProvider "Sends quota alerts"
+}
+
+views {
+  view containerView of saasGatewaySystem {
+    title "Container View"
+    include *
+  }
+}
