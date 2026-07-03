@@ -1,0 +1,75 @@
+...@../../../../themes/d2-sysande-default/theme.d2
+
+direction: right
+
+client: API Client {
+  class: actor
+}
+
+gateway: Gateway {
+  class: service
+}
+
+authorization: Credential & Authorization Service {
+  class: service
+}
+
+entitlement: Entitlement & Usage Service {
+  class: service
+}
+
+ledger: Usage Ledger {
+  class: data-store
+}
+
+upstream: Upstream API {
+  class: external
+}
+
+client -> gateway: request + machine credential {
+  class: data-flow
+}
+
+gateway -> authorization: validate credential, route, scopes, and policy {
+  class: data-flow
+}
+
+authorization -> gateway: authorized subject and project context {
+  class: data-flow
+}
+
+gateway -> entitlement: reserve required usage unit {
+  class: event-flow
+}
+
+entitlement -> ledger: create atomic reservation {
+  class: data-flow
+}
+
+ledger -> entitlement: reservation accepted or rejected {
+  class: data-flow
+}
+
+entitlement -> gateway: reservation result {
+  class: data-flow
+}
+
+gateway -> upstream: forward admitted request {
+  class: data-flow
+}
+
+upstream -> gateway: upstream result {
+  class: data-flow
+}
+
+gateway -> entitlement: confirm or release reservation {
+  class: event-flow
+}
+
+entitlement -> ledger: finalize usage transaction {
+  class: data-flow
+}
+
+gateway -> client: response or access error {
+  class: data-flow
+}
