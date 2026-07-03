@@ -1,0 +1,20 @@
+shape: sequence_diagram
+
+User: Portal User
+Portal: Management Portal
+Identity: Identity & Session Service
+Provider: Identity Provider
+Config: Configuration Store
+Audit: Audit Store
+
+User -> Portal: Start sign-in
+Portal -> Identity: Request login
+Identity -> Provider: Redirect authentication request
+Provider -> User: Present authentication flow
+User -> Provider: Complete authentication
+Provider -> Identity: Return verified identity result
+Identity -> Config: Load organization membership and roles
+Config -> Identity: Return authorized portal context
+Identity -> Audit: Record sign-in result
+Identity -> Portal: Establish portal session
+Portal -> User: Show permitted organizations and projects
