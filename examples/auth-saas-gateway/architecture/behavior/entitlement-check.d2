@@ -1,0 +1,21 @@
+shape: sequence_diagram
+
+Client: API Client
+Gateway: Gateway
+Authorization: Credential & Authorization Service
+Entitlement: Entitlement & Usage Service
+Ledger: Usage Ledger
+Upstream: Upstream API
+
+Client -> Gateway: Send request with machine credential
+Gateway -> Authorization: Validate credential, route, scopes, and policy
+Authorization -> Gateway: Return authorized project context
+Gateway -> Entitlement: Reserve required usage unit
+Entitlement -> Ledger: Create reservation with request identity
+Ledger -> Entitlement: Reservation accepted or rejected
+Entitlement -> Gateway: Return reservation result
+Gateway -> Upstream: Forward request when reserved
+Upstream -> Gateway: Return upstream outcome
+Gateway -> Entitlement: Confirm or release reservation
+Entitlement -> Ledger: Finalize usage transaction
+Gateway -> Client: Return response
