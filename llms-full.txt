@@ -2,12 +2,13 @@
 
 sysande is an open-source definition repository for AI-assisted system analysis and design.
 
-It is not a new diagramming language, renderer, modeling standard, visual editor, hosted platform, or AI service.
+It is not a new diagramming language, renderer, implementation framework, source-code generator, modeling standard, visual editor, hosted platform, or AI service.
 
-Its purpose is to guide a human and an AI assistant through a repeatable, coverage-driven process using established tools and DSLs.
+Its purpose is to help a human and an AI assistant make a rapid start, ask the right questions, plan useful coverage, and move toward a cleaner system design using established documentation and diagramming tools.
 
 Repository: https://github.com/gokerDEV/sysande
 Website: https://gokerdev.github.io/sysande/
+Structurizr Playground: https://playground.structurizr.com/
 
 ---
 
@@ -32,6 +33,10 @@ Do not generate every possible diagram.
 
 Do not fill the coverage matrix merely for completeness.
 
+Do not generate implementation source code, package manifests, build config, framework scaffolds, or infrastructure code inside sysande scope.
+
+Do not choose a technology stack unless it is already a confirmed project constraint.
+
 ---
 
 # 2. Core concepts
@@ -41,7 +46,9 @@ Do not fill the coverage matrix merely for completeness.
 - context — the system, its users, and external systems
 - container — runnable or deployable applications and data stores
 - component — major logical responsibilities inside a selected container
-- code — classes, interfaces, packages, modules, schemas, tables, and algorithms
+- code — classes, interfaces, packages, modules, schemas, tables, and algorithms as design documentation
+
+The code level is still a system-design level. It does not mean implementation source code generation.
 
 ## Concerns
 
@@ -66,9 +73,11 @@ Concern and notation are not the same thing.
 
 Example:
 
+```yaml
 level: container
 concern: behavior
 notation: state-machine
+```
 
 ## View
 
@@ -125,17 +134,39 @@ Approval is project-level acceptance, not external certification.
 
 # 4. Preferred tools
 
-## LikeC4
+## C4 / Structurizr
 
-Prefer LikeC4 when the system benefits from a shared architecture model and for:
+Prefer Structurizr DSL for rapid C4 structural views when the user benefits from copy-paste preview in Structurizr Playground.
+
+Use it for:
 
 - context structure
 - container structure
 - component structure
-- C4-oriented dynamic views
+- code-level structural design documentation
 - deployment views
 
-Reuse model declarations and stable identifiers across views.
+When Structurizr DSL is selected:
+
+- generate a complete `workspace` block
+- include `model` and `views` sections
+- include at least one relevant view
+- use stable identifiers
+- add `autolayout` where useful
+- keep the result copy-paste friendly for https://playground.structurizr.com/
+
+## C4 / LikeC4
+
+Use LikeC4 when the project benefits from:
+
+- a repo-native shared architecture model
+- local editor preview
+- developer-oriented documentation workflows
+- an existing LikeC4 project structure
+
+Do not present LikeC4 as the only C4 option.
+
+Use the wording **C4 / Structurizr / LikeC4** when describing structural architecture choices.
 
 ## D2
 
@@ -143,6 +174,7 @@ Prefer D2 for:
 
 - data-flow diagrams
 - state-machine presentations
+- sequence-style behavior diagrams
 - ERD and custom diagrams
 - reusable visual themes
 - static SVG
@@ -225,71 +257,17 @@ Identify contradictions and ambiguous boundaries explicitly.
 
 Produce:
 
-## System purpose
-
-Describe the problem, intended outcome, and primary value.
-
-## Primary actors and stakeholders
-
-For each, state:
-
-- name
-- role
-- primary goal
-- whether they directly interact with the system
-
-## System boundary
-
-List:
-
-- capabilities inside the boundary
-- capabilities outside the boundary
-- responsibilities remaining with external parties or systems
-
-## External systems and dependencies
-
-For each, state:
-
-- name
-- purpose of the interaction
-- direction of the interaction
-- known protocol or data exchanged, when confirmed
-
-## Constraints
-
-Group under:
-
-- technology and platform
-- security and privacy
-- regulatory and legal
-- deployment and data residency
-- availability and performance
-- scalability and storage
-- cost and operational limits
-
-## Quality priorities
-
-Rank only priorities stated or confirmed by the user.
-
-## Existing materials
-
-List repositories, diagrams, screenshots, API definitions, documents, schemas, and deployed systems.
-
-## Confirmed facts
-
-List facts that can be used directly in later views.
-
-## Assumptions
-
-List every provisional assumption.
-
-## Open questions
-
-List unresolved questions in priority order and mark them blocking or non-blocking for coverage planning.
-
-## Initial terminology
-
-Create a small glossary of important terms that must remain consistent.
+- system purpose
+- primary actors and stakeholders
+- system boundary
+- external systems and dependencies
+- constraints
+- quality priorities
+- existing materials
+- confirmed facts
+- assumptions
+- open questions
+- initial terminology
 
 Ask the user to correct, confirm, reject, or approve the summary.
 
@@ -304,7 +282,7 @@ Do not generate diagrams in this step.
 Rules:
 
 - do not mark every cell as required
-- recommend only views that materially improve understanding, implementation, risk identification, communication, onboarding, operations, or long-term documentation
+- recommend only views that materially improve understanding, risk identification, communication, onboarding, operations, or long-term documentation
 - prefer the smallest useful set of views
 - defer component and code views until a concrete need exists
 - reuse established notations and tools
@@ -360,79 +338,20 @@ Rules:
 9. keep source DSL as the editable source of truth
 10. do not move to another view before review
 
-## Structure checks
+For C4 structure views, prefer Structurizr DSL that can be pasted into Structurizr Playground unless the user requests LikeC4 or an existing project already uses LikeC4.
 
-- boundaries and containment are clear
-- responsibilities are described
-- relationships are directional and labeled
-- implementation detail matches the selected level
-
-## Data checks
-
-- entities, stores, schemas, and ownership are clear
-- cardinalities and dependencies are confirmed
-- sensitive or regulated data categories are identified where relevant
-
-## Flow checks
-
-- source, destination, data, and direction are clear
-- data flow and control flow are distinguishable
-- trust-boundary crossings are visible where relevant
-
-## Behavior checks
-
-- time or event order is explicit
-- alternate, failure, retry, timeout, and terminal paths are represented when relevant
-- state transitions have named events or conditions
-
-## Deployment checks
-
-- runtime nodes, zones, environments, and network boundaries are clear
-- mapping between logical and runtime elements is explicit
-- scaling and redundancy are shown only when confirmed
+For D2 diagrams, quote labels containing spaces or special characters.
 
 Output:
 
-## View definition
-
-- Level
-- Concern
-- Notation
-- Tool
-- Purpose
-- Status: draft
-
-## Questions resolved in this iteration
-
-## Confirmed elements and relationships
-
-## Assumptions
-
-## Open questions
-
-## Source DSL
-
-Provide one complete, internally consistent source block.
-
-## Rendering instructions
-
-State:
-
-- expected output format
-- selected theme
-- animation profile, if applicable
-- rendering or validation command when known
-
-## Review checklist
-
-Ask the user to review:
-
-- missing or unnecessary elements
-- incorrect boundaries
-- incorrect relationship direction or labels
-- unsupported assumptions
-- terminology inconsistencies
-- abstraction-level violations
+- view definition
+- questions resolved in this iteration
+- confirmed elements and relationships
+- assumptions
+- open questions
+- complete source DSL
+- rendering instructions
+- review checklist
 
 ---
 
@@ -450,23 +369,6 @@ Rules:
 6. keep the view focused on its purpose and level
 7. update related views only when a confirmed change creates inconsistency
 
-Review dimensions:
-
-- scope and purpose
-- elements and boundaries
-- relationships and behavior
-- terminology and consistency
-- notation and tool usage
-- readability
-
-Classify findings as:
-
-- correction
-- clarification
-- consistency
-- scope
-- presentation
-
 Produce:
 
 - findings
@@ -478,158 +380,45 @@ Produce:
 Status rules:
 
 - draft when unresolved design issues remain
-- reviewed when the user has reviewed the view but final approval is pending
+- reviewed when the user has reviewed the view but has not explicitly approved it
 - approved only when the user explicitly approves it
 
 ---
 
 # 11. Cross-view consistency review
 
-Run this after planned views have been drafted and reviewed, or after a major architecture decision changes multiple views.
-
-Review:
-
-- discovery summary
-- coverage matrix
-- glossary
-- assumptions
-- decisions
-- shared LikeC4 model
-- D2 and other DSL sources
-- generated diagrams
-- deployment and integration documentation
-
-Treat source DSL and approved records as authoritative over generated images.
-
-Rules:
-
-1. compare views by shared element identity
-2. preserve approved differences in level or purpose
-3. do not require every detail in every view
-4. report only meaningful contradictions, omissions, or ambiguities
-5. distinguish confirmed defects from possible risks
-6. do not silently repair architecture decisions
-7. ask the user when approved sources conflict and no authority is defined
+Run after planned views are drafted or reviewed, or after a major decision changes multiple views.
 
 Check:
 
-## Identity and terminology
-
-- stable names and identifiers
-- defined abbreviations and synonyms
-- internal and external elements remain distinct
-- stable names for data, events, commands, states, and protocols
-
-## Abstraction and containment
-
-- context views contain systems and actors
-- container views use runnable or deployable applications and data stores consistently
-- components belong to the correct container
-- code details do not leak upward without reason
-- parent-child relationships remain consistent
-
-## Relationships
-
-- relationship direction and purpose agree across views
-- sequence messages are possible in the structural model
-- data flows have valid sources and destinations
-- deployment connections support logical communication
-- technologies and protocols do not contradict one another
-
-## Data
-
-- ownership and storage locations are consistent
-- sensitive or regulated classifications remain stable
-- data transformations and formats are compatible
-- retention, deletion, and audit responsibilities are not contradictory
-
-## Behavior and lifecycle
-
-- sequence outcomes match state transitions
-- error, retry, cancellation, timeout, and terminal states agree
-- events and commands have producers and consumers
-- asynchronous behavior is not represented as synchronous without explanation
-
-## Deployment and boundaries
-
-- every deployed element maps to a logical element
-- trust boundaries and network zones agree with flows
-- external dependencies remain outside controlled boundaries
-- availability, scaling, and redundancy assumptions agree with deployment
-
-## Coverage and documentation
-
-- statuses match actual files
-- every planned view has purpose, notation, tool, and source
-- deferred and not-applicable cells have rationale when needed
-- generated SVG is traceable to source DSL
-- referenced assumptions and decisions are recorded
+- identity and terminology
+- abstraction and containment
+- relationships
+- data ownership and data movement
+- behavior and lifecycle
+- deployment and boundaries
+- coverage and documentation inventory
 
 Produce:
 
-- overall result: consistent, consistent with warnings, or inconsistent
-- findings with severity, category, affected views, conflict, recommendation, and need for confirmation
+- review summary: consistent, consistent with warnings, or inconsistent
+- findings with severity: error, warning, or note
 - unresolved conflicts
-- exact files or views requiring updates
-- recommended coverage status changes
+- required updates
+- coverage updates
 - final documentation inventory
 
 ---
 
-# 12. Design principles
+# 12. First response behavior
 
-Always follow these principles:
+When the user says they want to use sysande, the first response should:
 
-- prefer the smallest useful set of views
-- keep facts, assumptions, decisions, and open questions separate
-- preserve stable identifiers and terminology
-- avoid premature implementation detail
-- keep each view purposeful
-- use established tools rather than creating new notations
-- keep animation meaningful and optional
-- make every diagram understandable without animation
-- keep source DSL beside generated outputs
-- never treat sysande as a certification or architecture authority
+1. acknowledge that sysande will guide system analysis and design
+2. avoid diagrams
+3. avoid implementation code
+4. avoid technology-stack choices
+5. ask only the first focused init question group
+6. wait for the user's answer
 
----
-
-# 13. Repository files
-
-Definitions:
-
-- /AGENTS.md (for AI diagramming guidelines)
-- /definitions/sysande.md
-- /definitions/workflow.md
-- /definitions/coverage.md
-- /definitions/terminology.md
-
-Prompts:
-
-- /prompts/00-init.md
-- /prompts/01-discovery.md
-- /prompts/02-coverage-plan.md
-- /prompts/03-design-view.md
-- /prompts/04-review-view.md
-- /prompts/05-consistency-review.md
-
-Templates:
-
-- /templates/coverage.md
-
-Theme:
-
-- /themes/d2-sysande-default/theme.d2
-- /themes/d2-sysande-default/README.md
-
----
-
-# 14. First response behavior
-
-When a user says they want to design a system with sysande:
-
-1. confirm that sysande will be used as the workflow guide
-2. do not generate diagrams immediately
-3. begin the init conversation
-4. ask one coherent group of questions at a time
-5. adapt questions to information already supplied
-6. move to discovery summary only when enough context exists
+Do not skip discovery and coverage approval gates.
