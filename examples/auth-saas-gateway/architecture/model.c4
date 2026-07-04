@@ -1,80 +1,96 @@
-specification {
-  element actor {
-    style {
-      shape person
+workspace "Auth SaaS Gateway" "System analysis and design model for a multi-tenant authentication and API gateway SaaS." {
+
+    !identifiers hierarchical
+
+    model {
+        orgAdmin = person "Organization Administrator" "Configures organizations, projects, upstream APIs, plans, and credentials."
+        portalUser = person "Portal User" "Uses the management portal."
+        apiClient = person "API Client" "Calls an upstream API through the managed gateway."
+        operator = person "Platform Operator" "Operates the service and investigates failures."
+
+        identityProvider = softwareSystem "Identity Provider" "Authenticates portal users." "External System"
+        paymentProvider = softwareSystem "Payment Provider" "Confirms purchases and subscription events." "External System"
+        notificationProvider = softwareSystem "Notification Provider" "Delivers account and quota notifications." "External System"
+        upstreamApi = softwareSystem "Upstream API" "Executes customer business operations." "External System"
+
+        platform = softwareSystem "Auth SaaS Gateway" "Provides managed identity, authorization, entitlement enforcement, usage accounting, and request routing." {
+            portal = container "Management Portal" "Human interface for organization, project, plan, credential, and usage management." "Web Application"
+            managementApi = container "Management API" "Manages tenant configuration and exposes reporting information." "API"
+            identityService = container "Identity & Session Service" "Handles portal identities and human sessions." "Service"
+            credentialService = container "Credential & Authorization Service" "Issues machine credentials and evaluates scopes and policies." "Service"
+            gateway = container "Gateway" "Authenticates API requests, evaluates route policy, reserves usage, and proxies admitted requests." "Gateway"
+            entitlementService = container "Entitlement & Usage Service" "Owns plans, entitlements, reservations, and usage finalization." "Service"
+            eventBus = container "Usage Event Channel" "Carries asynchronous usage and audit events." "Event Channel"
+            configStore = container "Configuration Store" "Stores organizations, projects, routes, policies, and credential metadata." "Data Store" {
+                tags "Database"
+            }
+            usageLedger = container "Usage Ledger" "Stores auditable reservations, confirmations, releases, and adjustments." "Data Store" {
+                tags "Database"
+            }
+            auditStore = container "Audit Store" "Stores administrative and security events." "Data Store" {
+                tags "Database"
+            }
+        }
+
+        orgAdmin -> platform.portal "Configures the service"
+        portalUser -> platform.portal "Uses the portal"
+        apiClient -> platform.gateway "Sends API requests"
+        operator -> platform.managementApi "Reviews operational and audit information"
+
+        platform.portal -> platform.managementApi "Manages platform resources"
+        platform.portal -> platform.identityService "Establishes a portal session"
+        platform.managementApi -> platform.configStore "Reads and writes tenant configuration"
+        platform.managementApi -> platform.entitlementService "Manages plans and entitlements"
+        platform.managementApi -> platform.auditStore "Records administrative activity"
+        platform.identityService -> identityProvider "Delegates human authentication"
+        platform.identityService -> platform.configStore "Loads organization membership and roles"
+        platform.credentialService -> platform.configStore "Stores credential metadata, scopes, and policies"
+        platform.gateway -> platform.credentialService "Validates machine credential and authorization policy"
+        platform.gateway -> platform.entitlementService "Reserves, confirms, or releases usage"
+        platform.entitlementService -> platform.usageLedger "Records usage transactions"
+        platform.entitlementService -> platform.eventBus "Publishes usage events"
+        platform.eventBus -> platform.auditStore "Records usage and security events"
+        platform.gateway -> upstreamApi "Forwards admitted requests"
+        platform.managementApi -> paymentProvider "Receives verified purchase outcomes"
+        platform.managementApi -> notificationProvider "Requests account and quota notifications"
     }
-  }
 
-  element system
-  element webapp {
-    style {
-      shape browser
+    views {
+        systemContext platform "platformContext" {
+            include *
+            autolayout lr
+        }
+
+        container platform "platformContainers" {
+            include *
+            autolayout lr
+        }
+
+        styles {
+            element "Person" {
+                shape person
+            }
+
+            element "Software System" {
+                shape roundedbox
+            }
+
+            element "Container" {
+                shape roundedbox
+            }
+
+            element "External System" {
+                background #f5f5f5
+                color #333333
+            }
+
+            element "Database" {
+                shape cylinder
+            }
+
+            element "Boundary" {
+                strokeWidth 4
+            }
+        }
     }
-  }
-  element service
-  element datastore {
-    style {
-      shape storage
-    }
-  }
-  element queue
-}
-
-model {
-  orgAdmin = actor 'Organization Administrator' 'Configures organizations, projects, upstream APIs, plans, and credentials'
-  portalUser = actor 'Portal User' 'Uses the management portal'
-  apiClient = actor 'API Client' 'Calls an upstream API through the managed gateway'
-  operator = actor 'Platform Operator' 'Operates the service and investigates failures'
-
-  identityProvider = system 'Identity Provider' 'Authenticates portal users'
-  paymentProvider = system 'Payment Provider' 'Confirms purchases and subscription events'
-  notificationProvider = system 'Notification Provider' 'Delivers account and quota notifications'
-  upstreamApi = system 'Upstream API' 'Executes customer business operations'
-
-  platform = system 'Auth SaaS Gateway' 'Provides managed identity, authorization, entitlement enforcement, usage accounting, and request routing' {
-    portal = webapp 'Management Portal' 'Human interface for organization, project, plan, credential, and usage management'
-    managementApi = service 'Management API' 'Manages tenant configuration and exposes reporting information'
-    identityService = service 'Identity & Session Service' 'Handles portal identities and human sessions'
-    credentialService = service 'Credential & Authorization Service' 'Issues machine credentials and evaluates scopes and policies'
-    gateway = service 'Gateway' 'Authenticates API requests, evaluates route policy, reserves usage, and proxies admitted requests'
-    entitlementService = service 'Entitlement & Usage Service' 'Owns plans, entitlements, reservations, and usage finalization'
-    eventBus = queue 'Usage Event Channel' 'Carries asynchronous usage and audit events'
-    configStore = datastore 'Configuration Store' 'Stores organizations, projects, routes, policies, and credential metadata'
-    usageLedger = datastore 'Usage Ledger' 'Stores auditable reservations, confirmations, releases, and adjustments'
-    auditStore = datastore 'Audit Store' 'Stores administrative and security events'
-
-    portal -> managementApi 'manages platform resources'
-    portal -> identityService 'establishes a portal session'
-    managementApi -> configStore 'reads and writes tenant configuration'
-    managementApi -> entitlementService 'manages plans and entitlements'
-    managementApi -> auditStore 'records administrative activity'
-    identityService -> identityProvider 'delegates human authentication'
-    identityService -> configStore 'loads organization membership and roles'
-    credentialService -> configStore 'stores credential metadata, scopes, and policies'
-    gateway -> credentialService 'validates machine credential and authorization policy'
-    gateway -> entitlementService 'reserves, confirms, or releases usage'
-    entitlementService -> usageLedger 'records usage transactions'
-    entitlementService -> eventBus 'publishes usage events'
-    eventBus -> auditStore 'records usage and security events'
-    gateway -> upstreamApi 'forwards admitted requests'
-    managementApi -> paymentProvider 'receives verified purchase outcomes'
-    managementApi -> notificationProvider 'requests account and quota notifications'
-  }
-
-  orgAdmin -> platform.portal 'configures the service'
-  portalUser -> platform.portal 'uses the portal'
-  apiClient -> platform.gateway 'sends API requests'
-  operator -> platform.managementApi 'reviews operational and audit information'
-}
-
-views {
-  view platformContext of platform {
-    title 'Auth SaaS Gateway — Context'
-    include orgAdmin, portalUser, apiClient, operator, platform, identityProvider, paymentProvider, notificationProvider, upstreamApi
-  }
-
-  view platformContainers of platform {
-    title 'Auth SaaS Gateway — Containers'
-    include *
-  }
 }
