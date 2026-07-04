@@ -119,6 +119,7 @@ h2 {
 
 .actions {
   display: flex;
+  align-items: center;
   gap: 12px;
   flex-wrap: wrap;
   margin: 28px 0;
@@ -133,8 +134,11 @@ h2 {
   border: 1px solid var(--line);
   border-radius: 12px;
   background: var(--surface);
+  color: var(--text);
   text-decoration: none;
+  font: inherit;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .button.primary {
@@ -145,6 +149,18 @@ h2 {
 
 .button.primary:hover {
   background: var(--accent-strong);
+}
+
+.or-separator {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.copy-status {
+  min-width: 70px;
+  color: var(--accent);
+  font-size: .9rem;
+  font-weight: 700;
 }
 
 .traits {
@@ -249,21 +265,41 @@ tbody th {
   white-space: nowrap;
 }
 
-.grid-two {
+.grid-two,
+.tools-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
 }
 
-.grid-two article {
+.grid-two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.tools-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-two article,
+.tools-grid article {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 30px;
 }
 
-.grid-two article p:last-child {
+.grid-two article p:last-child,
+.tools-grid article p:last-child {
   color: var(--muted);
+}
+
+.text-link {
+  color: var(--accent);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.text-link:hover {
+  text-decoration: underline;
 }
 
 .start-panel {
@@ -303,6 +339,12 @@ footer {
   justify-content: space-between;
   color: var(--muted);
   font-size: .9rem;
+}
+
+@media (max-width: 960px) {
+  .tools-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 860px) {
