@@ -1,15 +1,19 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>sysande — AI-Assisted System Analysis and Design</title>
-  <meta name="description" content="sysande is an open-source, coverage-driven definition and prompt boilerplate for AI-assisted system analysis, architecture design, and documentation using established tools such as LikeC4 and D2.">
-  <meta name="keywords" content="system analysis, system design, software architecture, AI-assisted architecture, C4 model, LikeC4, D2 diagrams, architecture documentation">
+  <title>SYSANDE — AI-Assisted System Analysis and Design</title>
+  <meta name="description"
+    content="sysande is an open-source, coverage-driven definition and prompt boilerplate for AI-assisted system analysis, architecture design, and documentation using established tools such as LikeC4 and D2.">
+  <meta name="keywords"
+    content="system analysis, system design, software architecture, AI-assisted architecture, C4 model, LikeC4, D2 diagrams, architecture documentation">
   <meta name="theme-color" content="#f8fafc">
   <meta property="og:type" content="website">
   <meta property="og:title" content="sysande">
-  <meta property="og:description" content="A coverage-driven boilerplate for AI-assisted system analysis and architecture design.">
+  <meta property="og:description"
+    content="A coverage-driven boilerplate for AI-assisted system analysis and architecture design.">
   <link rel="stylesheet" href="./styles.css">
   <script type="application/ld+json">
   {
@@ -24,9 +28,10 @@
   }
   </script>
 </head>
+
 <body>
   <header class="site-header">
-    <a class="brand" href="#top">sysande</a>
+    <a class="brand highlight-red" href="#top">SYSANDE</a>
     <nav aria-label="Primary navigation">
       <a href="#workflow">Workflow</a>
       <a href="#coverage">Coverage</a>
@@ -39,8 +44,18 @@
   <main id="top">
     <section class="hero">
       <p class="eyebrow">Open-source system-design boilerplate</p>
-      <h1>System analysis and design with humans and AI.</h1>
-      <p class="lead">sysande guides iterative discovery, coverage planning, architecture design, and documentation while relying on established tools such as LikeC4 and D2.</p>
+      <h1 class="hero-title uppercase">
+        <span class="nowrap"><span class="highlight highlight-red">SYS</span><span
+            class="highlight highlight-dim">TEM</span></span>
+        <span class="nowrap"><span class="highlight highlight-red">AN</span><span
+            class="highlight highlight-dim">ALYSIS</span></span> and
+        <span class="nowrap"><span class="highlight highlight-red">DE</span><span
+            class="highlight highlight-dim">SIGN</span></span> with
+        <span class="nowrap"><span class="highlight highlight-dim">HUMANS</span></span> and <span class="nowrap"><span
+            class="highlight">AI</span>.</span>
+      </h1>
+      <p class="lead">sysande guides iterative discovery, coverage planning, architecture design, and documentation
+        while relying on established tools such as LikeC4 and D2.</p>
       <div class="actions">
         <a class="button primary" href="#start">Start designing</a>
         <a class="button" href="https://github.com/gokerDEV/sysande">View source</a>
@@ -61,8 +76,10 @@
       <ol class="steps">
         <li><strong>Discover</strong><span>Clarify purpose, actors, boundaries, constraints, and priorities.</span></li>
         <li><strong>Plan coverage</strong><span>Select only the views that materially improve the design.</span></li>
-        <li><strong>Design iteratively</strong><span>Ask focused questions, draft one view, review, and revise.</span></li>
-        <li><strong>Document consistently</strong><span>Keep source DSL, decisions, assumptions, and generated diagrams together.</span></li>
+        <li><strong>Design iteratively</strong><span>Ask focused questions, draft one view, review, and revise.</span>
+        </li>
+        <li><strong>Document consistently</strong><span>Keep source DSL, decisions, assumptions, and generated diagrams
+            together.</span></li>
       </ol>
     </section>
 
@@ -70,16 +87,54 @@
       <div class="section-heading">
         <p class="eyebrow">Coverage model</p>
         <h2>A practical map for system-design documentation.</h2>
-        <p>Not every cell must be completed. The matrix helps humans and AI decide what is useful, missing, deferred, or unnecessary.</p>
+        <p>Not every cell must be completed. The matrix helps humans and AI decide what is useful, missing, deferred, or
+          unnecessary.</p>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Level</th><th>Structure</th><th>Data</th><th>Flow</th><th>Behavior</th><th>Deployment</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Structure</th>
+              <th>Data</th>
+              <th>Flow</th>
+              <th>Behavior</th>
+              <th>Deployment</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr><th>Context</th><td>C4 Context</td><td>—</td><td>Context Flow</td><td>—</td><td>—</td></tr>
-            <tr><th>Container</th><td>C4 Container</td><td>Logical Data</td><td>Data Flow</td><td>Sequence / State</td><td>Deployment</td></tr>
-            <tr><th>Component</th><td>C4 Component</td><td>Domain Model</td><td>Activity / Data Flow</td><td>Sequence / State</td><td>Runtime Mapping</td></tr>
-            <tr><th>Code</th><td>Class / Package</td><td>ERD</td><td>Algorithm Flow</td><td>State / Sequence</td><td>—</td></tr>
+            <tr>
+              <th>Context</th>
+              <td>C4 Context</td>
+              <td>—</td>
+              <td>Context Flow</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <th>Container</th>
+              <td>C4 Container</td>
+              <td>Logical Data</td>
+              <td>Data Flow</td>
+              <td>Sequence / State</td>
+              <td>Deployment</td>
+            </tr>
+            <tr>
+              <th>Component</th>
+              <td>C4 Component</td>
+              <td>Domain Model</td>
+              <td>Activity / Data Flow</td>
+              <td>Sequence / State</td>
+              <td>Runtime Mapping</td>
+            </tr>
+            <tr>
+              <th>Code</th>
+              <td>Class / Package</td>
+              <td>ERD</td>
+              <td>Algorithm Flow</td>
+              <td>State / Sequence</td>
+              <td>—</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -89,12 +144,14 @@
       <article>
         <p class="eyebrow">Shared architecture model</p>
         <h2>LikeC4</h2>
-        <p>Preferred for reusable architectural elements and C4-oriented context, container, component, dynamic, and deployment views.</p>
+        <p>Preferred for reusable architectural elements and C4-oriented context, container, component, dynamic, and
+          deployment views.</p>
       </article>
       <article>
         <p class="eyebrow">Flexible visual output</p>
         <h2>D2</h2>
-        <p>Preferred for data-flow, state-machine, ERD, custom diagrams, reusable visual themes, and animated SVG output.</p>
+        <p>Preferred for data-flow, state-machine, ERD, custom diagrams, reusable visual themes, and animated SVG
+          output.</p>
       </article>
     </section>
 
@@ -116,4 +173,5 @@ Do not generate diagrams before the initial coverage plan is reviewed.</code></p
     <span>Open source · MIT</span>
   </footer>
 </body>
+
 </html>
