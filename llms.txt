@@ -5,6 +5,7 @@ sysande is an open-source definition repository for AI-assisted system analysis 
 It is not a new diagramming language or renderer.
 
 Start here:
+- /AGENTS.md (for AI diagramming guidelines)
 - /definitions/workflow.md
 - /definitions/coverage.md
 - /prompts/00-init.md

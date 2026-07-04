@@ -597,6 +597,7 @@ Always follow these principles:
 
 Definitions:
 
+- /AGENTS.md (for AI diagramming guidelines)
 - /definitions/sysande.md
 - /definitions/workflow.md
 - /definitions/coverage.md

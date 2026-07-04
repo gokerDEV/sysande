@@ -68,12 +68,12 @@ model {
 }
 
 views {
-  view context of platform {
+  view platformContext of platform {
     title 'Auth SaaS Gateway — Context'
     include orgAdmin, portalUser, apiClient, operator, platform, identityProvider, paymentProvider, notificationProvider, upstreamApi
   }
 
-  view containers of platform {
+  view platformContainers of platform {
     title 'Auth SaaS Gateway — Containers'
     include *
   }

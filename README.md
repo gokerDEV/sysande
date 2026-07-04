@@ -56,6 +56,27 @@ Not every cell must be completed. sysande helps identify which views materially 
 - **LikeC4** for shared architectural models and C4-oriented structural views.
 - **D2** for data-flow, state-machine, custom diagrams, themes, and animated SVG.
 
+## Local Setup & Previews
+
+If you are new to LikeC4 or D2, you can easily view and edit these diagrams locally.
+
+### Visual Studio Code Extensions
+We highly recommend installing the official VS Code extensions for live previews and syntax highlighting:
+- [LikeC4 (likec4.likec4-vscode)](https://marketplace.visualstudio.com/items?itemName=likec4.likec4-vscode)
+- [D2 (Terrastruct.d2)](https://marketplace.visualstudio.com/items?itemName=Terrastruct.d2)
+
+### Previewing LikeC4 (`.c4` / `.likec4`)
+You can use the LikeC4 extension's built-in preview, or you can serve the diagrams in your browser with live-reload. In your terminal, navigate to the folder containing your architecture files and run:
+
+```bash
+npx likec4 start
+```
+This will start a local web server (usually at `http://localhost:5173`) where you can explore your architectural views interactively.
+
+### Previewing D2 (`.d2`)
+Once you have the Terrastruct D2 extension installed, you can right-click anywhere inside a `.d2` file and select **Show D2 Preview**. 
+*Note: The extension requires the D2 system binary to be installed on your computer. You can install it via [their official guide](https://d2lang.com/tour/install) (e.g., `brew install d2` on macOS).*
+
 ## Repository structure
 
 - `definitions/` — workflow and coverage definitions

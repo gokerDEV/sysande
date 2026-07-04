@@ -43,6 +43,7 @@ Prefer LikeC4 when the view depends on a shared architecture model, especially f
 - deployment views.
 
 Reuse model declarations and create views separately where possible.
+*Important:* Ensure you do not use reserved keywords (like `context`) for your view names. Use specific camelCase names (e.g. `view systemContext of system`).
 
 ### D2
 
@@ -55,6 +56,7 @@ Prefer D2 when the view requires:
 - static or animated SVG output.
 
 Apply animation only where it communicates meaningful flow, sequence, or state change.
+*Important:* Always quote labels and descriptions in double quotes if they contain spaces or special characters to ensure compatibility with VS Code extensions (e.g. `Service: "My Service"`).
 
 ## View-specific checks
 
