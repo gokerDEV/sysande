@@ -2,12 +2,16 @@
 
 sysande is an open-source definition repository for AI-assisted system analysis and design.
 
-It is not a new diagramming language or renderer.
+It is not a new diagramming language, renderer, implementation framework, source-code generator, or AI service.
+
+Normal sysande output is documentation and diagrams: discovery summaries, coverage plans, assumptions, decisions, source DSL files, generated diagrams, and review notes.
 
 Start here:
 - /AGENTS.md (for AI diagramming guidelines)
 - /definitions/workflow.md
 - /definitions/coverage.md
+- /definitions/scope.md
+- /definitions/c4-output.md
 - /prompts/00-init.md
 
 Core workflow:
@@ -22,12 +26,16 @@ Core workflow:
 9. Run a final cross-view consistency review.
 
 Preferred tools:
-- LikeC4 for shared architecture models and C4-oriented structural views.
-- D2 for data-flow, state-machine, custom diagrams, open visual themes, and animated SVG.
+- C4 / Structurizr for rapid structural architecture views that can be pasted into Structurizr Playground.
+- C4 / LikeC4 for repo-native shared architecture models when that workflow is useful.
+- D2 for data-flow, state-machine, sequence-style behavior, ERD, custom diagrams, open visual themes, and animated SVG.
 
 Important rules:
 - Do not generate every possible diagram.
 - Do not generate diagrams before the initial coverage plan is reviewed.
+- Do not generate implementation source code, package manifests, build config, or framework scaffolds.
+- Do not choose a technology stack unless it is already a confirmed project constraint.
 - Do not mix abstraction levels without a clear reason.
 - Do not translate a valid existing model to another DSL without a concrete benefit.
 - Treat generated SVG as an output, never as the source of truth.
+- For C4 structural views, prefer Playground-compatible Structurizr DSL unless the user requests LikeC4 or an existing project already uses LikeC4.
